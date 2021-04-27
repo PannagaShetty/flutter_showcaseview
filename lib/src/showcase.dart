@@ -322,7 +322,7 @@ class _TargetWidget extends StatelessWidget {
             height: size!.height + 16,
             width: size!.width + 16,
             decoration: BoxDecoration(
-              borderRadius: borderRadius ?? BorderRadius.circular(10),
+              borderRadius: borderRadius ?? BorderRadius.circular(20),
               // border: shapeBorder ??
               //     RoundedRectangleBorder(
               //       borderRadius: const BorderRadius.all(
