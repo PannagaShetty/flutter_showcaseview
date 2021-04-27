@@ -321,14 +321,14 @@ class _TargetWidget extends StatelessWidget {
           child: Container(
             height: size!.height + 16,
             width: size!.width + 16,
-            decoration: ShapeDecoration(
+            decoration: BoxDecoration(
               borderRadius: borderRadius ?? BorderRadius.circular(10),
-              shape: shapeBorder ??
-                  RoundedRectangleBorder(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(8),
-                    ),
-                  ),
+              // border: shapeBorder ??
+              //     RoundedRectangleBorder(
+              //       borderRadius: const BorderRadius.all(
+              //         Radius.circular(8),
+              //       ),
+              //     ),
             ),
           ),
         ),
