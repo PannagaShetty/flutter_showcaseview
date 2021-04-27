@@ -44,6 +44,7 @@ class Showcase extends StatefulWidget {
   final String? title;
   final String? description;
   final ShapeBorder? shapeBorder;
+  final BorderRadius? borderRadius;
   final TextStyle? titleTextStyle;
   final TextStyle? descTextStyle;
   final EdgeInsets contentPadding;
@@ -67,6 +68,7 @@ class Showcase extends StatefulWidget {
     this.title,
     required this.description,
     this.shapeBorder,
+    this.borderRadius,
     this.overlayColor = Colors.black,
     this.overlayOpacity = 0.75,
     this.titleTextStyle,
@@ -105,6 +107,7 @@ class Showcase extends StatefulWidget {
     this.title,
     this.description,
     this.shapeBorder,
+    this.borderRadius,
     this.overlayColor = Colors.black,
     this.overlayOpacity = 0.75,
     this.titleTextStyle,
@@ -263,6 +266,7 @@ class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
               size: size,
               onTap: _getOnTargetTap,
               shapeBorder: widget.shapeBorder,
+              borderRadius: widget.borderRadius,
             ),
             ToolTipWidget(
               position: position,
@@ -293,15 +297,17 @@ class _TargetWidget extends StatelessWidget {
   final Animation<double>? widthAnimation;
   final VoidCallback? onTap;
   final ShapeBorder? shapeBorder;
+  final BorderRadius? borderRadius;
 
-  _TargetWidget({
-    Key? key,
-    required this.offset,
-    this.size,
-    this.widthAnimation,
-    this.onTap,
-    this.shapeBorder,
-  }) : super(key: key);
+  _TargetWidget(
+      {Key? key,
+      required this.offset,
+      this.size,
+      this.widthAnimation,
+      this.onTap,
+      this.shapeBorder,
+      this.borderRadius})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -316,6 +322,7 @@ class _TargetWidget extends StatelessWidget {
             height: size!.height + 16,
             width: size!.width + 16,
             decoration: ShapeDecoration(
+              borderRadius: borderRadius ?? BorderRadius.circular(10),
               shape: shapeBorder ??
                   RoundedRectangleBorder(
                     borderRadius: const BorderRadius.all(
