@@ -50,6 +50,7 @@ class ToolTipWidget extends StatefulWidget {
   static late bool isArrowUp;
   final VoidCallback? onTooltipTap;
   final EdgeInsets? contentPadding;
+  final Widget? arrow;
 
   ToolTipWidget(
       {this.position,
@@ -67,7 +68,8 @@ class ToolTipWidget extends StatefulWidget {
       this.contentHeight,
       this.contentWidth,
       this.onTooltipTap,
-      this.contentPadding});
+      this.contentPadding,
+      this.arrow});
 
   @override
   _ToolTipWidgetState createState() => _ToolTipWidgetState();
@@ -184,11 +186,14 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
     if (widget.container == null) {
       return Stack(
         children: <Widget>[
-          widget.showArrow! ? _getArrow(contentOffsetMultiplier) : Container(),
+          widget.showArrow!
+              ? _getArrow(contentOffsetMultiplier, widget.arrow)
+              : Container(),
           Positioned(
-            top: contentY,
+            top: ToolTipWidget.isArrowUp ? contentY + 75 : contentY - 75,
             left: _getLeft(),
             right: _getRight(),
+            // bottom: !ToolTipWidget.isArrowUp ? -150 : 0,
             child: FractionalTranslation(
               translation: Offset(0.0, contentFractionalOffset as double),
               child: SlideTransition(
@@ -274,10 +279,13 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
                   child: GestureDetector(
                     onTap: widget.onTooltipTap,
                     child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        // border: Border.all(color: Colors.red, width: 5),
+                      ),
                       padding: EdgeInsets.only(
                         top: paddingTop,
                       ),
-                      color: Colors.transparent,
                       child: Center(
                         child: MeasureSize(
                             onSizeChange: (size) {
@@ -301,7 +309,7 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
     }
   }
 
-  Widget _getArrow(double contentOffsetMultiplier) {
+  Widget _getArrow(double contentOffsetMultiplier, Widget? arrow) {
     final contentFractionalOffset = contentOffsetMultiplier.clamp(-1.0, 0.0);
     return Positioned(
       top: ToolTipWidget.isArrowUp
@@ -315,12 +323,18 @@ class _ToolTipWidgetState extends State<ToolTipWidget> {
             begin: Offset(0.0, contentFractionalOffset / 5),
             end: Offset(0.0, 0.150),
           ).animate(widget.animationOffset!),
-          child: Icon(
-            ToolTipWidget.isArrowUp
-                ? Icons.arrow_drop_up
-                : Icons.arrow_drop_down,
-            color: widget.tooltipColor,
-            size: 50,
+          child: Padding(
+            padding: EdgeInsets.only(
+                top: ToolTipWidget.isArrowUp ? 20 : 0,
+                bottom: !ToolTipWidget.isArrowUp ? 20 : 0),
+            child: arrow ??
+                Icon(
+                  ToolTipWidget.isArrowUp
+                      ? Icons.arrow_drop_up
+                      : Icons.arrow_drop_down,
+                  color: widget.tooltipColor,
+                  size: 50,
+                ),
           ),
         ),
       ),

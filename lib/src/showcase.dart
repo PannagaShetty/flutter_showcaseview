@@ -44,7 +44,7 @@ class Showcase extends StatefulWidget {
   final String? title;
   final String? description;
   final ShapeBorder? shapeBorder;
-  final BorderRadius? borderRadius;
+  final double borderRadius;
   final TextStyle? titleTextStyle;
   final TextStyle? descTextStyle;
   final EdgeInsets contentPadding;
@@ -61,6 +61,7 @@ class Showcase extends StatefulWidget {
   final VoidCallback? onTargetClick;
   final bool? disposeOnTap;
   final bool disableAnimation;
+  final Widget? arrow;
 
   const Showcase({
     required this.key,
@@ -68,7 +69,7 @@ class Showcase extends StatefulWidget {
     this.title,
     required this.description,
     this.shapeBorder,
-    this.borderRadius,
+    this.borderRadius = 10,
     this.overlayColor = Colors.black,
     this.overlayOpacity = 0.75,
     this.titleTextStyle,
@@ -82,6 +83,7 @@ class Showcase extends StatefulWidget {
     this.disableAnimation = false,
     this.contentPadding = const EdgeInsets.symmetric(vertical: 8),
     this.onToolTipClick,
+    this.arrow,
   })  : height = null,
         width = null,
         container = null,
@@ -107,7 +109,7 @@ class Showcase extends StatefulWidget {
     this.title,
     this.description,
     this.shapeBorder,
-    this.borderRadius,
+    this.borderRadius = 10,
     this.overlayColor = Colors.black,
     this.overlayOpacity = 0.75,
     this.titleTextStyle,
@@ -115,6 +117,8 @@ class Showcase extends StatefulWidget {
     this.showcaseBackgroundColor = Colors.white,
     this.textColor = Colors.black,
     this.onTargetClick,
+    this.arrow,
+    // this.position=,
     this.disposeOnTap,
     this.animationDuration = const Duration(milliseconds: 2000),
     this.disableAnimation = false,
@@ -254,6 +258,7 @@ class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
                 height: MediaQuery.of(context).size.height,
                 child: CustomPaint(
                   painter: ShapePainter(
+                      radius: widget.borderRadius,
                       opacity: widget.overlayOpacity,
                       rect: position!.getRect(),
                       shapeBorder: widget.shapeBorder,
@@ -266,9 +271,10 @@ class _ShowcaseState extends State<Showcase> with TickerProviderStateMixin {
               size: size,
               onTap: _getOnTargetTap,
               shapeBorder: widget.shapeBorder,
-              borderRadius: widget.borderRadius,
+              // borderRadius: widget.borderRadius,
             ),
             ToolTipWidget(
+              arrow: widget.arrow,
               position: position,
               offset: offset,
               screenSize: screenSize,
@@ -319,16 +325,17 @@ class _TargetWidget extends StatelessWidget {
         child: GestureDetector(
           onTap: onTap,
           child: Container(
-            height: size!.height + 16,
-            width: size!.width + 16,
-            decoration: BoxDecoration(
-              borderRadius: borderRadius ?? BorderRadius.circular(20),
-              // border: shapeBorder ??
-              //     RoundedRectangleBorder(
-              //       borderRadius: const BorderRadius.all(
-              //         Radius.circular(8),
-              //       ),
-              //     ),
+            height: size!.height,
+            width: size!.width,
+            decoration: ShapeDecoration(
+              // color: Colors.white,
+              // borderRadius: borderRadius ?? BorderRadius.circular(20),
+              shape: shapeBorder ??
+                  RoundedRectangleBorder(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                  ),
             ),
           ),
         ),
